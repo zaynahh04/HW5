@@ -1,6 +1,6 @@
 /******************************************************************
  *
- *   YOUR NAME / SECTION NUMBER
+ *   ZAYNAH HUSSAINI 001
  *
  *   Note, additional comments provided throughout this source code
  *   is for educational purposes
@@ -87,8 +87,12 @@ public class CuckooHash<K, V> {
 	/*
 	 * Hash functions, hash1 and hash2
 	 */
-	private int hash1(K key) 	{ return Math.abs(key.hashCode()) % CAPACITY; }
-	private int hash2(K key) 	{ return (a * b + Math.abs(key.hashCode())) % CAPACITY; }
+	private int hash1(K key) 	{
+		return Math.abs(key.hashCode()) % CAPACITY;
+	}
+	private int hash2(K key) 	{
+		return (a * b + Math.abs(key.hashCode())) % CAPACITY;
+	}
 
 
 	/**
@@ -181,77 +185,84 @@ public class CuckooHash<K, V> {
 
 	/**
 	 * Method put
-	 *
-	 * Adds a key-value pair to the table by means of cuckoo hashing. 
-     * Each element can only be inserted into one of two bucket locations,
-     * defined by the two separate hash functions, h1(key) or h2(key).
-	 * Each element's initial location will always be defined
-	 * by h1(key). If later it is kicked out of that bucket location by 
-     * another element insertion, it will move back and forth between those
-     *  two hash locations (aka, bucket locations).
-	 *
-	 * On its initial invocation, this method places the passed <key,value>
-	 * element at its h1(key) bucket location. If an element is already located
-	 * at that bucket location, it will be kicked out and moved to its secondary
-	 * location in order to make room for this initially inserted element. The
-	 * secondary location is defined by the kicked out key's alternative hash
-	 * function (aka, either h1(key) or h2(key), whichever is the one that moves
-	 * to the alternate location.
-	 *
-	 * This process will continue in a loop as it moves kicked out 
-     * elements to their alternate location (defined by h1(key) and h2(key))
-     * until either:
-	 *         (1) an empty bucket is found, or
-	 *         (2) we reach 'n' iterations, where 'n' is the bucket capacity
-	 *             of the hashmap (see HINT below on this method of cycle
-	 *             detection, the bucket capacity is held in variable 'CAPACITY').
-	 *
-	 * If we reach 'n' shuffles of elements being kicked out and moved to their
-     * secondary locations (leading to what appears to be a cycle), we will grow
-	 * the hashmap and rehash (via method rehash()). After the rehash, we will
-	 * need to re-invoke this method recursively, as we will have one element that
-	 * was kicked out after the 'n' iteration that still needs to be inserted. Note,
-	 * that it is possible when the bucket lists is small, that we may need to rehash
-	 * twice to break a cycle. Again, this is done automatically when calling this
-	 * method recursively.
-	 *
-	 * MAKE SURE YOU UNDERSTAND THE HINTS:
-	 *
-	 * HINT 1: To make sure you pass the provided tests in main, follow this rule:
-	 *          - Given a <key, value> via method's invocation, the bucket it
-	 *            determined by hashing the 'key'
-	 *          - Normally, we would not allow dupe keys, for our purposes here we
-	 *            WILL allow. What will be unique in this assignment's implementation
-	 *            is the <key,value> in the table. So when inserting a key that is
-	 *            already in the table, continue unless a dupe key has the same
-	 *            value as being inserted.
-	 *
-	 *      The above is being done to make testing easy on causing cycles with minimal
-	 *      insertions into the hash table.
-	 *
-	 * HINT 2: For simplicity of this assignment, after shuffling elements between
-	 * buckets 'n' times (where 'n' is defined by the value of variable 'CAPACITY',
-	 * you can assume you are in an infinite cycle. This may not be true, but if
-	 * growing the hash map when not in a cycle, this will not cause data integrity
-	 * issues. BUT BE CLEAR IN PRACTICE, as we discussed in class, a better way to
-	 * do this is to build a graph (one edge at a time) for each element shuffled
-	 * (and edge being defined as with end-points of the two bucket locations for the
-	 * moved element). This once a cycle is detected in this graph, which is by starting
-	 * to traverse an existing edge in the graph, we have a cycle. However, we have not
-	 * discussed graphs yet, they are at the end of the semester :-)
+	 * 	 *
+	 * 	 * Adds a key-value pair to the table by means of cuckoo hashing.
+	 *      * Each element can only be inserted into one of two bucket locations,
+	 *      * defined by the two separate hash functions, h1(key) or h2(key).
+	 * 	 * Each element's initial location will always be defined
+	 * 	 * by h1(key). If later it is kicked out of that bucket location by
+	 *      * another element insertion, it will move back and forth between those
+	 *      *  two hash locations (aka, bucket locations).
+	 * 	 *
+	 * 	 * On its initial invocation, this method places the passed <key,value>
+	 * 	 * element at its h1(key) bucket location. If an element is already located
+	 * 	 * at that bucket location, it will be kicked out and moved to its secondary
+	 * 	 * location in order to make room for this initially inserted element. The
+	 * 	 * secondary location is defined by the kicked out key's alternative hash
+	 * 	 * function (aka, either h1(key) or h2(key), whichever is the one that moves
+	 * 	 * to the alternate location.
+	 * 	 *
+	 * 	 * This process will continue in a loop as it moves kicked out
+	 *      * elements to their alternate location (defined by h1(key) and h2(key))
+	 *      * until either:
+	 * 	 *         (1) an empty bucket is found, or
+	 * 	 *         (2) we reach 'n' iterations, where 'n' is the bucket capacity
+	 * 	 *             of the hashmap (see HINT below on this method of cycle
+	 * 	 *             detection, the bucket capacity is held in variable 'CAPACITY').
+	 * 	 *
+	 * 	 * If we reach 'n' shuffles of elements being kicked out and moved to their
+	 *      * secondary locations (leading to what appears to be a cycle), we will grow
+	 * 	 * the hashmap and rehash (via method rehash()). After the rehash, we will
+	 * 	 * need to re-invoke this method recursively, as we will have one element that
+	 * 	 * was kicked out after the 'n' iteration that still needs to be inserted. Note,
+	 * 	 * that it is possible when the bucket lists is small, that we may need to rehash
+	 * 	 * twice to break a cycle. Again, this is done automatically when calling this
+	 * 	 * method recursively.
+	 * 	 *
+	 * 	 * MAKE SURE YOU UNDERSTAND THE HINTS:
+	 * 	 *
+	 * 	 * HINT 1: To make sure you pass the provided tests in main, follow this rule:
+	 * 	 *          - Given a <key, value> via method's invocation, the bucket it
+	 * 	 *            determined by hashing the 'key'
+	 * 	 *          - Normally, we would not allow dupe keys, for our purposes here we
+	 * 	 *            WILL allow. What will be unique in this assignment's implementation
+	 * 	 *            is the <key,value> in the table. So when inserting a key that is
+	 * 	 *            already in the table, continue unless a dupe key has the same
+	 * 	 *            value as being inserted.
+	 * 	 *
+	 * 	 *      The above is being done to make testing easy on causing cycles with minimal
+	 * 	 *      insertions into the hash table.
+	 * 	 *
+	 * 	 * HINT 2: For simplicity of this assignment, after shuffling elements between
+	 * 	 * buckets 'n' times (where 'n' is defined by the value of variable 'CAPACITY',
+	 * 	 * you can assume you are in an infinite cycle. This may not be true, but if
+	 * 	 * growing the hash map when not in a cycle, this will not cause data integrity
+	 * 	 * issues. BUT BE CLEAR IN PRACTICE, as we discussed in class, a better way to
+	 * 	 * do this is to build a graph (one edge at a time) for each element shuffled
+	 * 	 * (and edge being defined as with end-points of the two bucket locations for the
+	 * 	 * moved element). This once a cycle is detected in this graph, which is by starting
+	 * 	 * to traverse an existing edge in the graph, we have a cycle. However, we have not
+	 * 	 * discussed graphs yet, they are at the end of the semester :-)
 	 *
 	 * @param key the key of the element to add
      * @param value the value of the element to add
 	 */
 
  	public void put(K key, V value) {
+		int bucket1 = hash1(key);
+
+		int bucket2 = hash2(key);
+		return;
+	}
+
+
+
 
 		// ADD YOUR CODE HERE - DO NOT FORGET TO ADD YOUR NAME AT TOP OF FILE.
 		// Also make sure you read this method's prologue above, it should help
 		// you. Especially the two HINTS in the prologue.
 
-		return;
-	}
+
 
 
 	/**
